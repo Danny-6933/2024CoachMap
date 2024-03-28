@@ -9,6 +9,7 @@
   
   let b_charge = 0
   let r_charge = 0
+  let myNote
   
   
   let canvas;
@@ -29,12 +30,15 @@
     // Adjust the color picker position to the bottom of the canvas
     colorPicker = createColorPicker(color(0, 0, 0));
     colorPicker.position(20, height - 40); // Adjusted position
+    myNote = new Note(100,100, false);
   };
   
   function draw() {
       background(255);
       noStroke()
       field();
+      myNote.noteTaken();
+      myNote.drawNote();
   
       for (let line of lines) {
         stroke(line.color);
@@ -275,4 +279,36 @@ function drawStage(c) {
   fill(150); 
   triangle(250, 182, 250, 242, 200, 212);
   strokeWeight(2)
+}
+
+class Note {
+  constructor (x, y, state) {
+    this.x = x;
+    this.y = y;
+    this.state = state;
+  }
+
+   drawNote() {
+    if(this.state) {
+      // Draw a medium sized black X at (x, y)
+      stroke(0); // Black color
+      strokeWeight(3); // Medium thickness
+      line(this.x - 10, this.y - 10, this.x + 10, this.y + 10);
+      line(this.x + 10, this.y - 10, this.x - 10, this.y + 10);
+    } else {
+      // Draw a medium sized orange circle at (x, y)
+      stroke(255, 165, 0); // Orange color
+      fill(255, 165, 0); // Fill color same as stroke for a solid ring appearance
+      strokeWeight(3); // Thickness of the ring
+      noFill(); // Makes the circle hollow
+      ellipse(this.x, this.y, 25); 
+    }
+   }
+   noteTaken() {
+    // Assuming a simple bounding box approach for touch detection
+    if (mouseX > this.x - this.size/2 && mouseX < this.x + this.size/2 &&
+        mouseY > this.y - this.size/2 && mouseY < this.y + this.size/2) {
+      this.state = !this.state; // Toggle the state
+    }
+  }
 }
