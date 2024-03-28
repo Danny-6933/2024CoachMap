@@ -15,7 +15,7 @@
   let canvas;
   
   function setup() {
-    canvas = createCanvas(800, 400);
+    canvas = createCanvas(800, 500);
     // Disable scrolling with Apple Pencil
     canvas.elt.addEventListener("touchstart", handleTouchStart, false);
     canvas.elt.addEventListener("touchmove", handleTouchMove, false);
@@ -32,20 +32,20 @@
     colorPicker.position(20, height - 40); // Adjusted position
       // Populate notes for the blue speaker
   for (let i = 0; i < 3; i++) {
-    let y = 100 + i * 50; // 180, 200, 220
-    notes.push(new Note(150, y, true)); // Assuming y = 100 for simplicity
+    let y = 130 + i * 50; // 180, 200, 220
+    notes.push(new Note(180, y, true)); // Assuming y = 100 for simplicity
   }
 
   // Populate notes for the red speaker
   for (let i = 0; i < 3; i++) {
-    let y = 100 + i * 50; // 580, 600, 620
-    notes.push(new Note(600, y, true)); // Assuming y = 100 for simplicity
+    let y = 130 + i * 50; // 580, 600, 620
+    notes.push(new Note(630, y, true)); // Assuming y = 100 for simplicity
   }
 
   // Populate notes along the middle line
   for (let i = 0; i < 5; i++) {
-    let y = 75 + i * 67; // Equally spaced from 340 to 460
-    notes.push(new Note(376, y, true)); // Assuming y = 300 for simplicity
+    let y = 105 + i * 67; // Equally spaced from 340 to 460
+    notes.push(new Note(406, y, true)); // Assuming y = 300 for simplicity
   }
   };
   
@@ -145,7 +145,6 @@
       } else if (touchX > 485 && touchX < 565 && touchY > 10 && touchY < 40) {
         undo();
       } 
-        // If not pressing UI buttons, check if the touch is near any note
         for (let note of notes) {
           // Check if the touch is within 15 pixels of the note's center
           let d = dist(touchX, touchY, note.x, note.y);
@@ -192,6 +191,10 @@
   }
 
 function field() {
+
+  push(); // Save the current drawing context (style and transformations)
+  translate(30, 30);
+
   textAlign(CENTER);
   rectMode(CENTER);
   strokeCap(SQUARE)
@@ -266,7 +269,7 @@ function field() {
   drawStage(false);
   pop();
   
-
+  pop()
 }
 
 function drawStage(c) {
