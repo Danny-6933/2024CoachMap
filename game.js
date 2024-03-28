@@ -144,7 +144,7 @@
         drawing = false;
       } else if (touchX > 485 && touchX < 565 && touchY > 10 && touchY < 40) {
         undo();
-      }  else {
+      } 
         // If not pressing UI buttons, check if the touch is near any note
         for (let note of notes) {
           // Check if the touch is within 15 pixels of the note's center
@@ -154,7 +154,6 @@
             break; // Assuming only one note can be toggled per touch, break after finding the first one
           }
         }
-      }
     }
   }
   
