@@ -1,173 +1,3 @@
-// let lines = []; // Array to store lines
-// let currentLine = []; // Store points for the current line being drawn
-
-function setup() {
-  createCanvas(800, 400);
-  background(255);
-//   field();
-
-//   // Create an undo button
-//   let undoButton = createButton('Undo');
-//   undoButton.mousePressed(undoLastLine);
-}
-
-// function draw() {
-//   background(255); // Clear the canvas
-//   field();
-//   drawLines(); // Draw all lines
-// }
-
-// function mousePressed() {
-//   currentLine = []; // Start a new line
-//   currentLine.push([mouseX, mouseY]); // Add the start point
-// }
-
-// function mouseDragged() {
-//   currentLine.push([mouseX, mouseY]); // Add points as the mouse moves
-// }
-
-// function mouseReleased() {
-//   if (currentLine.length > 1) { // Check if the line has more than one point
-//     lines.push(currentLine); // Add the finished line to the lines array
-//   }
-//   currentLine = []; // Reset currentLine
-// }
-
-// function drawLines() {
-//   for (let i = 0; i < lines.length; i++) {
-//     let linePoints = lines[i];
-//     beginShape();
-//     for (let j = 0; j < linePoints.length; j++) {
-//       let point = linePoints[j];
-//       vertex(point[0], point[1]);
-//     }
-//     endShape();
-//   }
-// }
-
-// function undoLastLine() {
-//   if (lines.length > 0) {
-//     lines.pop(); // Remove the last line
-//   }
-// }
-
-// function field() {
-//   textAlign(CENTER);
-//   rectMode(CENTER);
-//   strokeCap(SQUARE)
-//   noStroke();
-//   fill(255);
-//   rect(400, 200, 800, 400);
-
-//   fill(0);
-
-//   // text("You are scouting team " + teamNum + ".", 400,25);
-
-
-//   // arena
-//   stroke(0);
-//   strokeWeight(4);
-//   fill(220);
-//   beginShape();
-//   vertex(50, 50);
-//   vertex(50, 313);
-//   vertex(126, 373);
-//   vertex(627, 373);
-//   vertex(703, 313);
-//   vertex(703, 50);
-//   endShape(CLOSE);
-//   strokeWeight(3);
-//   stroke(0,200)
-//   line(376.5,50,376.5,373)
-//   rectMode(CORNER)
-  
-//   strokeWeight(2)
-  
-//   //BLUE FIELD ELEMENTS
-//   //amp
-//   fill(10,40,200)
-//   rect(99,35,61,20)
-//   //speaker
-//   strokeWeight(2)
-//   beginShape()
-//   vertex(50,110);
-//   vertex(90,130);
-//   vertex(90,170);
-//   vertex(50,190)
-//   endShape(CLOSE)
-//   //zone
-//   stroke(10,40,200)
-//   line(280,50,280,375)
-//   stroke(0)
-//   // stage
-//   drawStage(true)
-  
-//   //RED FIELD ELEMENTS
-//   stroke(0)
-//   // amp
-//   fill(200,10,40)
-//   rect(593,35,61,20)
-//   //speaker
-//   strokeWeight(2)
-//   beginShape()
-//   vertex(700,110);
-//   vertex(660,130);
-//   vertex(660,170);
-//   vertex(700,190)
-//   endShape(CLOSE)
-//   //zone
-//   stroke(200,10,40)
-//   line(473,50,473,375)
-//   stroke(0)
-//   // stage
-//   push();
-//   scale(-1, 1);
-//   translate(-752, 0);
-//   drawStage(false);
-//   pop();
-  
-
-// }
-
-// function drawStage(c) {
-//   fill(150);
-//   strokeWeight(15);
-//   stroke(150);
-//   let startX = 233;
-//   let startY = 212;
-//   let lineLength = 65;
-//   let angle = radians(120);
-  
-//   strokeWeight(2);
-//   c ? stroke(10, 40, 200): stroke(200, 10, 40)
-//   let endX1 = startX - lineLength, endY1 = startY;
-//   let endX2 = startX + cos(PI - angle) * lineLength, endY2 = startY + sin(PI - angle) * lineLength; 
-//   let endX3 = startX + cos(PI + angle) * lineLength, endY3 = startY + sin(PI + angle) * lineLength;
-
-//   line(endX1, endY1, endX2, endY2);
-//   line(endX1, endY1, endX3, endY3);
-//   line(endX2, endY2, endX3, endY3);
-  
-//   fill(150);
-//   strokeWeight(15);
-//   stroke(150);
-
-//   line(startX, startY, startX - lineLength, startY);
-//   push();
-//   translate(startX, startY);
-//   rotate(angle);
-//   line(0, 0, -lineLength, 0);
-//   rotate(angle);
-//   line(0, 0, -lineLength, 0);
-//   pop();
-
-//   noStroke();
-//   fill(150); 
-//   triangle(250, 182, 250, 242, 200, 212);
-//   strokeWeight(2)
-// }
-
-const coachMap = (p) => {
   let lines = [];
   let currentLine = [];
   let drawing = true;
@@ -183,64 +13,64 @@ const coachMap = (p) => {
   
   let canvas;
   
-  p.setup = () => {
-    canvas = p.createCanvas(800, 400);
+  function setup() {
+    canvas = createCanvas(800, 400);
     // Disable scrolling with Apple Pencil
     canvas.elt.addEventListener("touchstart", handleTouchStart, false);
     canvas.elt.addEventListener("touchmove", handleTouchMove, false);
   
-    p.background(255);
+    background(255);
     strokeCap(ROUND);
   
-    drawButtonColor = p.color(0, 255, 0);
-    eraseButtonColor = p.color(255, 0, 0);
-    undoButtonColor = p.color(0, 0, 255);
+    drawButtonColor = color(0, 255, 0);
+    eraseButtonColor = color(255, 0, 0);
+    undoButtonColor = color(0, 0, 255);
   
     // Adjust the color picker position to the bottom of the canvas
-    colorPicker = p.createColorPicker(p.color(0, 0, 0));
-    colorPicker.position(20, p.height - 40); // Adjusted position
+    colorPicker = createColorPicker(color(0, 0, 0));
+    colorPicker.position(20, height - 40); // Adjusted position
   };
   
-  p.draw = () => {
-      p.background(255);
-      p.noStroke()
+  function draw() {
+      background(255);
+      noStroke()
       field();
   
       for (let line of lines) {
-        p.stroke(line.color);
-        p.strokeWeight(5);
-        p.noFill();
-        p.beginShape();
+        stroke(line.color);
+        strokeWeight(5);
+        noFill();
+        beginShape();
         for (let point of line.points) {
-          p.vertex(point.x, point.y);
+          vertex(point.x, point.y);
         }
-        p.endShape();
+        endShape();
       }
   
       // Draw buttons
-      p.stroke(255)
-      p.strokeWeight(1)
-      p.fill(drawing ? drawButtonColor : 200);
-      p.rect(285, 10, 80, 30, 3);
-      p.fill(!drawing ? eraseButtonColor : 200);
-      p.rect(385, 10, 80, 30, 3);
-      p.fill(undoButtonColor);
-      p.rect(485, 10, 80, 30, 3);
+      stroke(255)
+      strokeWeight(1)
+      fill(drawing ? drawButtonColor : 200);
+      rect(285, 10, 80, 30, 3);
+      fill(!drawing ? eraseButtonColor : 200);
+      rect(385, 10, 80, 30, 3);
+      fill(undoButtonColor);
+      rect(485, 10, 80, 30, 3);
     
       // Draw button labels
-      p.fill(255);
-      p.textSize(16);
-      p.textAlign(CENTER, CENTER);
-      p.text('Draw', 325, 25);
-      p.text('Erase', 425, 25);
-      p.text('Undo', 525, 25);
+      fill(255);
+      textSize(16);
+      textAlign(CENTER, CENTER);
+      text('draw', 325, 25);
+      text('Erase', 425, 25);
+      text('Undo', 525, 25);
   };
   
-  p.touchStarted = () => {
+  function touchStarted() {
     // Adjusted to remove the specific area restriction
-    if (p.touches.length > 0) {
+    if (touches.length > 0) {
       // Determine if touch is within button areas or the drawing area
-      let touchX = p.touches[0].x, touchY = p.touches[0].y;
+      let touchX = touches[0].x, touchY = touches[0].y;
       if (!isTouchOnButton(touchX, touchY)) {
         if (drawing) {
           currentLine = {
@@ -257,15 +87,15 @@ const coachMap = (p) => {
     }
   };
   
-  p.touchMoved = () => {
-    if (p.touches.length > 0 && p.touches[0].x > 100 && p.touches[0].y > 100 && drawing) {
+  function touchMoved() {
+    if (touches.length > 0 && touches[0].x > 100 && touches[0].y > 100 && drawing) {
       if (currentLine) {
-        currentLine.points.push(p.createVector(p.touches[0].x, p.touches[0].y));
+        currentLine.points.push(createVector(touches[0].x, touches[0].y));
       }
     }
   };
   
-  p.touchEnded = () => {
+  function touchEnded() {
     currentLine = null;
   };
   
@@ -273,7 +103,7 @@ const coachMap = (p) => {
     for (let i = lines.length - 1; i >= 0; i--) {
       let line = lines[i];
       for (let point of line.points) {
-        let d = p.dist(touchX, touchY, point.x, point.y);
+        let d = dist(touchX, touchY, point.x, point.y);
         if (d < 10) {
           undoStack.push(lines.splice(i, 1)[0]);
           return;
@@ -283,9 +113,9 @@ const coachMap = (p) => {
   }
   
   function checkButtons() {
-    if (p.touches.length > 0) {
-      let touchX = p.touches[0].x;
-      let touchY = p.touches[0].y;
+    if (touches.length > 0) {
+      let touchX = touches[0].x;
+      let touchY = touches[0].y;
   
       if (touchX > 285 && touchX < 365 && touchY > 10 && touchY < 40) {
         drawing = true;
@@ -446,6 +276,3 @@ function drawStage(c) {
   triangle(250, 182, 250, 242, 200, 212);
   strokeWeight(2)
 }
-  };
-
-  new p5(coachMap, "coachCanvas")
