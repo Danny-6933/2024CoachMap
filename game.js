@@ -189,16 +189,16 @@ const coachMap = (p) => {
     canvas.elt.addEventListener("touchstart", handleTouchStart, false);
     canvas.elt.addEventListener("touchmove", handleTouchMove, false);
   
-    // Rest of your setup code
     p.background(255);
-    strokeCap(ROUND)
+    strokeCap(ROUND);
   
     drawButtonColor = p.color(0, 255, 0);
     eraseButtonColor = p.color(255, 0, 0);
     undoButtonColor = p.color(0, 0, 255);
   
+    // Adjust the color picker position to the bottom of the canvas
     colorPicker = p.createColorPicker(p.color(0, 0, 0));
-    colorPicker.position(100, 200);
+    colorPicker.position(20, p.height - 40); // Adjusted position
   };
   
   p.draw = () => {
@@ -237,18 +237,23 @@ const coachMap = (p) => {
   };
   
   p.touchStarted = () => {
-    if (p.touches.length > 0 && p.touches[0].x > 100 && p.touches[0].y > 100) {
-      if (drawing) {
-        currentLine = {
-          points: [],
-          color: colorPicker.color(),
-        };
-        lines.push(currentLine);
+    // Adjusted to remove the specific area restriction
+    if (p.touches.length > 0) {
+      // Determine if touch is within button areas or the drawing area
+      let touchX = p.touches[0].x, touchY = p.touches[0].y;
+      if (!isTouchOnButton(touchX, touchY)) {
+        if (drawing) {
+          currentLine = {
+            points: [],
+            color: colorPicker.color(),
+          };
+          lines.push(currentLine);
+        } else {
+          eraseLine(touchX, touchY);
+        }
       } else {
-        eraseLine(p.touches[0].x, p.touches[0].y);
+        checkButtons();
       }
-    } else {
-      checkButtons();
     }
   };
   
@@ -316,6 +321,14 @@ const coachMap = (p) => {
   
     // Single touch, prevent scrolling
     evt.preventDefault();
+  }
+
+  function isTouchOnButton(x, y) {
+    // Define button areas
+    // Assuming buttons are rectangles, check if the touch is within any button's area
+    return (x > 285 && x < 365 && y > 10 && y < 40) || // Draw button
+           (x > 385 && x < 465 && y > 10 && y < 40) || // Erase button
+           (x > 485 && x < 565 && y > 10 && y < 40);   // Undo button
   }
 
 function field() {
