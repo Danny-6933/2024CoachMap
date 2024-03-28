@@ -9,7 +9,7 @@
   
   let b_charge = 0
   let r_charge = 0
-  let myNote
+  let notes = [];
   
   
   let canvas;
@@ -30,15 +30,32 @@
     // Adjust the color picker position to the bottom of the canvas
     colorPicker = createColorPicker(color(0, 0, 0));
     colorPicker.position(20, height - 40); // Adjusted position
-    myNote = new Note(100,100, false);
+      // Populate notes for the blue speaker
+  for (let i = 0; i < 3; i++) {
+    let y = 100 + i * 50; // 180, 200, 220
+    notes.push(new Note(150, y, true)); // Assuming y = 100 for simplicity
+  }
+
+  // Populate notes for the red speaker
+  for (let i = 0; i < 3; i++) {
+    let y = 100 + i * 50; // 580, 600, 620
+    notes.push(new Note(600, y, true)); // Assuming y = 100 for simplicity
+  }
+
+  // Populate notes along the middle line
+  for (let i = 0; i < 5; i++) {
+    let y = 75 + i * 67; // Equally spaced from 340 to 460
+    notes.push(new Note(376, y, true)); // Assuming y = 300 for simplicity
+  }
   };
   
   function draw() {
       background(255);
       noStroke()
       field();
-      myNote.noteTaken();
-      myNote.drawNote();
+      for (let note of notes) {
+        note.drawNote();
+      }
   
       for (let line of lines) {
         stroke(line.color);
@@ -127,6 +144,16 @@
         drawing = false;
       } else if (touchX > 485 && touchX < 565 && touchY > 10 && touchY < 40) {
         undo();
+      }  else {
+        // If not pressing UI buttons, check if the touch is near any note
+        for (let note of notes) {
+          // Check if the touch is within 15 pixels of the note's center
+          let d = dist(touchX, touchY, note.x, note.y);
+          if (d <= 15) {
+            note.changeState(); // Call the method to toggle the note's state
+            break; // Assuming only one note can be toggled per touch, break after finding the first one
+          }
+        }
       }
     }
   }
@@ -289,7 +316,7 @@ class Note {
   }
 
    drawNote() {
-    if(this.state) {
+    if(!this.state) {
       // Draw a medium sized black X at (x, y)
       stroke(0); // Black color
       strokeWeight(3); // Medium thickness
@@ -304,11 +331,7 @@ class Note {
       ellipse(this.x, this.y, 25); 
     }
    }
-   noteTaken() {
-    // Assuming a simple bounding box approach for touch detection
-    if (mouseX > this.x - this.size/2 && mouseX < this.x + this.size/2 &&
-        mouseY > this.y - this.size/2 && mouseY < this.y + this.size/2) {
-      this.state = !this.state; // Toggle the state
-    }
-  }
+   changeState() {
+    this.state = !this.state;
+   }
 }
