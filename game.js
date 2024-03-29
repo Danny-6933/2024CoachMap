@@ -193,7 +193,7 @@
 function field() {
 
   push(); // Save the current drawing context (style and transformations)
-  translate(30, 30);
+  translate(40, 40);
 
   textAlign(CENTER);
   rectMode(CENTER);
